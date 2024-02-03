@@ -30,7 +30,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 async fn add_page(token: &str, database_id: &str, task_type: &str, task_name: &str) -> Result<(), reqwest::Error> {
     let client = Client::new();
     let url = "https://api.notion.com/v1/pages";
-    let response = client.post(url)
+    client.post(url)
         .header("Authorization", format!("Bearer {}", token))
         .header("Notion-Version", "2022-06-28")
         .header("Content-Type", "application/json")
@@ -55,9 +55,6 @@ async fn add_page(token: &str, database_id: &str, task_type: &str, task_name: &s
         }))
         .send()
         .await?;
-
-    println!("Status: {}", response.status());
-    println!("Body: {:?}", response.text().await?);
 
     Ok(())
 }
